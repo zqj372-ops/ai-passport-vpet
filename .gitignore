@@ -1,0 +1,19 @@
+# 构建产物
+build/
+build-*/
+sdkconfig
+sdkconfig.old
+sdkconfig.*.bak
+managed_components/
+.ccache/
+
+# 字库工具依赖
+tools/node_modules/
+
+# 编辑器
+.vscode/
+.idea/
+*.swp
+
+# 系统
+.DS_Store
