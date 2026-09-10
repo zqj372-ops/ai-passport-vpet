@@ -22,6 +22,28 @@
 
 怪兽形象为**原创像素风**（数据驱动绘制），不包含任何第三方角色美术。
 
+<details>
+<summary>English overview</summary>
+
+An unofficial open-source virtual-pet firmware for the **FoloToy AI Passport** (a ¥99 hackable
+ESP32-C3 wearable), in the spirit of the classic Digimon virtual pets:
+
+- 31 original monsters across 7 evolution stages, multi-branch evolution tree with
+  "neglect" failure lines, driven by age / training / battle record / care mistakes / weight
+- Evolution animation, power-charge training mini-game, CPU battles
+- **Two-device battles over BLE**: both units broadcast a 17-byte battle card and passively scan;
+  the battle engine is symmetric and deterministic, so both screens compute the identical fight
+  without pairing or connecting
+- Full Chinese UI with an embedded Noto Sans CJK SC subset font; NVS save with CRC; synthesized sound
+
+Flash `artifacts/vpet-full.bin` with the official web flasher
+(<https://ai-passport.folotoy.cn/tools/web-flasher/>). Built with ESP-IDF v5.5.3; CI in this repo
+runs the host tests and a full firmware build.
+
+Monster art is original pixel drawing — no third-party character assets are included.
+
+</details>
+
 ## 快速开始（刷机，3 分钟）
 
 需要：一台 AI Passport、一根能传数据的 USB-C 线、Chrome 或 Edge。
