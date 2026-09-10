@@ -1,0 +1,47 @@
+name: Build V-Pet firmware
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: vpet-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    name: Host tests (养成模型 / 对战 / 进化树)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Run repository checks and host tests
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq python3
+          cd firmware
+          ./tools/validate.sh --static
+
+  firmware:
+    name: ESP-IDF 5.5.3 firmware (esp32c3)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Build, merge and verify
+        uses: espressif/esp-idf-ci-action@9d38657f3d789ca759b2b37aaf5ceffbc42c4f0d # v1
+        with:
+          esp_idf_version: v5.5.3
+          target: esp32c3
+          command: cd firmware && ./tools/validate.sh --firmware
+      - name: Upload verified firmware
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: vpet-firmware-${{ github.run_id }}
+          path: firmware/build/FoloToy-AI-Passport-full.bin
+          if-no-files-found: error
+          retention-days: 14
